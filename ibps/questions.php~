@@ -1,0 +1,67 @@
+<?php
+session_start();
+if(empty($_SESSION['username'])) {
+    header("location: index.php");
+} 
+?>
+<?php 
+$host='localhost';
+$db='ibps';
+$user='root';
+$pass='vinods';
+$con=mysql_connect($host,$user,$pass);
+mysql_select_db($db,$con) or('DB Error');
+?>
+    <?php 
+    if(isset($_POST['submit']))
+    {
+        $a=$_POST['cname'];
+        $b=$_POST['refno'];
+        $c=$_POST['quest'];
+        
+        $insert_query="insert into register(candidate_name,reference_no,q_set,exam_status) values('$a','$b','$c','1')";
+        mysql_query($insert_query);
+        
+        
+    }
+    ?>
+<html>
+  <?php include 'head.php';?>
+
+  <body class="register-page">
+    <div class="register-box">
+      <div class="register-logo">
+       <b>Welcome</b> <?php echo strtoupper($_SESSION['username']);?>
+      </div>
+
+      <div class="register-box-body">
+          <p class="login-box-msg"><h3><center>Online Examination</center></h3></p><hr>
+          <p class="login-box-msg"><h5><center>Update Questionnaire</center></h5></p><hr>
+  <a href="edit_set_a.php"><button class="btn bg-navy margin"><h4>SetA</h4></button></a>
+  <a href="edit_set_b.php"><button class="btn bg-navy margin"><h4>SetB</h4></button></a>
+  <a href="edit_set_c.php"><button class="btn bg-navy margin"><h4>Setc</h4></button></a><hr>
+          
+        </form>
+         
+        <a href="dashboard.php" class="btn btn-block btn-primary btn-xs" style="">HOME</a>
+          <a href="questions.php" class="btn btn-block btn-success btn-xs" style="">Register</a>
+          <a href="results.php" class="btn btn-block btn-info btn-xs" style="">Results</a>
+          <a href="#" class="btn btn-block btn-danger btn-xs" style="">Settings</a>
+         <a href="logout.php" class="btn btn-block btn-warning btn-xs">Logout</a>
+           
+      </div>
+    </div>
+<?php 
+if ($insert_query)
+{?>
+    <div class="callout callout-success">
+                    <h4>Registration Successful</h4>
+                   <p>User <?php echo $a ?> with reference number <?php echo $b ?> registered successfully.</p>
+                  </div>
+      <script>window.setTimeout(function() {window.location = "register.php";}, 3000);</script>
+ <?php   
+}
+?>
+  </body>
+</html>
+

@@ -1,0 +1,65 @@
+<?php
+session_start();
+?>
+<?php 
+ include 'db.php';
+if(isset($_POST['login'])){
+ $username = $_POST['uname'];
+ $password = $_POST['upass'];
+			
+ $compare = mysql_query("SELECT * FROM users WHERE username='$username' AND passward='$password'");
+ $count = mysql_num_rows($compare);
+ if($count >= 1){
+     $data = mysql_fetch_array($compare);
+     $_SESSION['username'] = $data[1];
+     header('Location:dashboard.php');
+ }else{?>
+     
+                    <div class="alert alert-danger alert-dismissable">
+                    <h4><i class="icon fa fa-ban"></i> Alert!</h4>
+                   UserName and Passward is incorrect.
+                  </div>
+<script>window.setTimeout(function() {window.location = "index.php";}, 3000);</script>
+       <?php
+	}
+}
+?>
+
+
+<html>
+   <?php include 'head.php';?>
+  <body class="login-page">
+    <div class="login-box">
+      <div class="login-logo">
+           <b>Admin</b>Login
+      </div>
+    
+      <div class="login-box-body">
+        <p class="login-box-msg">Login</p>
+        <form action="" method="post">
+          <div class="form-group has-feedback">
+              <input type="text" name="uname" class="form-control" placeholder="Enter Name">
+            <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+          </div>
+          <div class="form-group has-feedback">
+              <input type="password" name="upass" class="form-control" placeholder="Enter Password">
+            <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+          </div>
+          <div class="row">
+            <div class="col-xs-8">
+            
+                <label>
+                  <a href="index.php" class="btn btn-primary btn-block btn-flat"></i>Back</a>
+                </label>
+         
+            </div>
+            <div class="col-xs-4">
+                <button name="login" type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+            </div>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </body>
+</html>
